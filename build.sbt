@@ -1,4 +1,5 @@
 import AssemblyKeys._
+import TestWithSparkKeys._
 
 
 name := "spark testing"
@@ -25,9 +26,11 @@ val sharedMergeStrategy: (String => MergeStrategy) => String => MergeStrategy =
     case x => old(x)
   }
 
-// Assembly App
+// Load Assembly Settings
 
 assemblySettings
+
+// Assembly App
 
 mainClass in assembly := Some("com.github.ezhulenev.spark.RunSparkApp")
 
@@ -43,8 +46,11 @@ jarName in (Test, assembly) := "spark-testing-example-tests.jar"
 
 mergeStrategy in (Test, assembly) <<= (mergeStrategy in assembly)(sharedMergeStrategy)
 
-test in (Test, assembly) := {}
+test in (Test, assembly) := {} // disable tests in assembly
 
+// Run tests in Standalone Spark
+
+Project.inConfig(Test)(testWithSparkSettings)
 
 // Resolvers
 
@@ -73,5 +79,7 @@ libraryDependencies ++= Seq(
 // Test Dependencies
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest"   % "2.2.0" % "test"
+  "org.scalatest" %% "scalatest"   % "2.2.0" % "test",
+  "junit"          % "junit"       % "4.11"  % "test",
+  "org.testng" % "testng" % "6.8.8" % "test"
 )

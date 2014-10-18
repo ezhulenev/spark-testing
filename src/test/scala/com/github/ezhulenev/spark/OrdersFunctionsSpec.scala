@@ -6,7 +6,7 @@ import org.scalatest.FlatSpec
 import scala.io.Codec
 
 
-class OrdersFunctionsSpec extends FlatSpec with ConfiguredSparkContext {
+class OrdersFunctionsSpec extends FlatSpec with ConfiguredSparkTestContext {
 
   def orders = {
     implicit val codec = Codec.ISO8859
@@ -14,7 +14,7 @@ class OrdersFunctionsSpec extends FlatSpec with ConfiguredSparkContext {
     val is = this.getClass.getResourceAsStream("/openbookultraAA_N20130403_1_of_1")
     new OrdersFunctions(sc, OpenBookMsg.iterate(is))
   }
-  
+
   "OrdersFunctions" should "correctly count Buy orders" in {
     val buyOrders = orders.countBuyOrders()
     assert(buyOrders("APC") == 39)
