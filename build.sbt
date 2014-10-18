@@ -19,7 +19,7 @@ net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 assemblySettings
 
-mainClass in assembly := Some("com.github.ezhulenev.RunSparkApp")
+mainClass in assembly := Some("com.github.ezhulenev.spark.RunSparkApp")
 
 jarName in assembly := "spark-testing-example.jar"
 
