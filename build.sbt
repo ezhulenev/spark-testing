@@ -15,21 +15,34 @@ scalacOptions += "-feature"
 
 net.virtualvoid.sbt.graph.Plugin.graphSettings
 
-// Assembly
+// Merge strategy shared between app & test
+
+val sharedMergeStrategy: (String => MergeStrategy) => String => MergeStrategy =
+  old => {
+    case x if x.startsWith("META-INF/ECLIPSEF.RSA") => MergeStrategy.last
+    case x if x.startsWith("META-INF/mailcap") => MergeStrategy.last
+    case x if x.endsWith("plugin.properties") => MergeStrategy.last
+    case x => old(x)
+  }
+
+// Assembly App
 
 assemblySettings
 
 mainClass in assembly := Some("com.github.ezhulenev.spark.RunSparkApp")
 
-jarName in assembly := "spark-testing-example.jar"
+jarName in assembly := "spark-testing-example-app.jar"
 
-mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) => {
-  case x if x.startsWith("META-INF/ECLIPSEF.RSA") => MergeStrategy.last
-  case x if x.startsWith("META-INF/mailcap") => MergeStrategy.last
-  case x if x.endsWith("plugin.properties") => MergeStrategy.last
-  case x => old(x)
-}
-}
+mergeStrategy in assembly <<= (mergeStrategy in assembly)(sharedMergeStrategy)
+
+// Assembly Tests
+
+Project.inConfig(Test)(assemblySettings)
+
+jarName in (Test, assembly) := "spark-testing-example-tests.jar"
+
+mergeStrategy in (Test, assembly) <<= (mergeStrategy in assembly)(sharedMergeStrategy)
+
 
 // Resolvers
 
