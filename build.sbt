@@ -43,6 +43,8 @@ jarName in (Test, assembly) := "spark-testing-example-tests.jar"
 
 mergeStrategy in (Test, assembly) <<= (mergeStrategy in assembly)(sharedMergeStrategy)
 
+test in (Test, assembly) := {}
+
 
 // Resolvers
 

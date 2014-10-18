@@ -12,7 +12,7 @@ trait ConfiguredSparkContext {
 
   private lazy val sparkConf = {
     val master = config.getString("spark.master")
-    log.info(s"Create spark context. Master: $master}")
+    log.info(s"Create spark context. Master: $master")
     new SparkConf().
       setMaster(master).
       setJars(SparkContext.jarOfClass(this.getClass).toSeq).
