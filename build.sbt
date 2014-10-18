@@ -1,3 +1,6 @@
+import AssemblyKeys._
+
+
 name := "spark testing"
 
 version := "0.0.1"
@@ -10,6 +13,23 @@ scalacOptions += "-deprecation"
 
 scalacOptions += "-feature"
 
+net.virtualvoid.sbt.graph.Plugin.graphSettings
+
+// Assembly
+
+assemblySettings
+
+mainClass in assembly := Some("com.github.ezhulenev.RunSparkApp")
+
+jarName in assembly := "spark-testing-example.jar"
+
+mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) => {
+  case x if x.startsWith("META-INF/ECLIPSEF.RSA") => MergeStrategy.last
+  case x if x.startsWith("META-INF/mailcap") => MergeStrategy.last
+  case x if x.endsWith("plugin.properties") => MergeStrategy.last
+  case x => old(x)
+}
+}
 
 // Resolvers
 
