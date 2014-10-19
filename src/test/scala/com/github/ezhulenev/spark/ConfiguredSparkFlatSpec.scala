@@ -6,8 +6,8 @@ import org.scalatest.{BeforeAndAfterAll, FlatSpec}
 import org.slf4j.LoggerFactory
 
 
-trait ConfiguredSparkSpec extends FlatSpec with BeforeAndAfterAll {
-  private val log = LoggerFactory.getLogger(classOf[ConfiguredSparkSpec])
+trait ConfiguredSparkFlatSpec extends FlatSpec with BeforeAndAfterAll {
+  private val log = LoggerFactory.getLogger(classOf[ConfiguredSparkFlatSpec])
 
   private val config = ConfigFactory.load()
 

@@ -6,7 +6,7 @@ import org.scalatest.FlatSpec
 import scala.io.Codec
 
 
-class OrdersFunctionsSpec extends FlatSpec with ConfiguredSparkSpec {
+class OrdersFunctionsSpec extends FlatSpec with ConfiguredSparkFlatSpec {
 
   def orders = {
     implicit val codec = Codec.ISO8859
