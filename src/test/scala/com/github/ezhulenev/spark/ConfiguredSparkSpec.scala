@@ -2,11 +2,12 @@ package com.github.ezhulenev.spark
 
 import com.typesafe.config.ConfigFactory
 import org.apache.spark.{SparkContext, SparkConf}
+import org.scalatest.{BeforeAndAfterAll, FlatSpec}
 import org.slf4j.LoggerFactory
 
 
-trait ConfiguredSparkTestContext {
-  private val log = LoggerFactory.getLogger(classOf[ConfiguredSparkTestContext])
+trait ConfiguredSparkSpec extends FlatSpec with BeforeAndAfterAll {
+  private val log = LoggerFactory.getLogger(classOf[ConfiguredSparkSpec])
 
   private val config = ConfigFactory.load()
 
@@ -31,4 +32,9 @@ trait ConfiguredSparkTestContext {
   }
 
   lazy val sc = new SparkContext(sparkConf)
+
+  override protected def afterAll(): Unit = {
+    super.afterAll()
+    sc.stop()
+  }
 }
