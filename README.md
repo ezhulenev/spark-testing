@@ -12,7 +12,7 @@ By default tests are running with Spark in local mode
 
 If you want to run tests in standalone Spark cluster you need to provide `spark.master` url
 
-   sbt -Dspark.master=spark://spark-host:7777 test-assembled
+    sbt -Dspark.master=spark://spark-host:7777 test-assembled
 
 ## Building
 
